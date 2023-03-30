@@ -6,4 +6,13 @@ const db = new Sequelize('app', '','',{
   logging: false
 })
 
+try{
+  db.sync().then(()=>{
+    console.log(`All models are in sync`)
+  })
+}
+catch(err){
+  console.log(``)
+}
+
 export default db;

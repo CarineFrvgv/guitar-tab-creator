@@ -2,6 +2,9 @@ const ALLOWED_GUITAR_TECHNIQUES = ['h', 'p', 'b', 'r', '\\', '/', '~' ]
 export const NUMBER_OF_GUITAR_STRINGS = 6
 export const NUMBER_OF_GUITAR_FRETS = 24
 
+import {nanoid} from 'nanoid'
+// let id = 0
+
 export interface INoteClass{
   getNote(): NoteType
   getGuitarString():number
@@ -10,9 +13,8 @@ export interface INoteClass{
 
   setGuitarString(guitarString:number): void|never
   setGuitarFret(guitarFret:number): void|never
-  // setGuitarTechnique(guitarTechnique:string): void|never
-  // removeGuitarTechinique(): void
-
+  setGuitarTechnique(guitarTechnique:string): void|never
+  removeGuitarTechnique(): void
 }
 
 export type NoteType={
@@ -21,19 +23,18 @@ export type NoteType={
   guitarTechnique?: string
 }
 
-
 export class Note implements INoteClass {
   private guitarString: number;
   private guitarFret: number;
   private guitarTechnique?:string;
+  public id: string 
 
   constructor(args: NoteType){
-
+    this.id = nanoid(11);
     this.setGuitarString(args.guitarString);
-    this.guitarFret = args.guitarFret;
-    
-    if (args.guitarTechnique && ALLOWED_GUITAR_TECHNIQUES.includes(args.guitarTechnique)){
-      this.guitarTechnique = args.guitarTechnique
+    this.setGuitarFret(args.guitarFret);
+    if(args.guitarTechnique){
+      this.setGuitarTechnique(args.guitarTechnique);
     }
   }
 
@@ -90,8 +91,20 @@ export class Note implements INoteClass {
     }
   }
 
-  // public setGuitarTechnique(guitarTechnique:string){}
+  public setGuitarTechnique(guitarTechnique:string):void|never{
+    if (ALLOWED_GUITAR_TECHNIQUES.includes(guitarTechnique)){
+      this.guitarTechnique = guitarTechnique
+      return
+    }
+    throw new Error(`Technique passed is not a valid one`)
+  }
 
+  public removeGuitarTechnique():void{
+    if(this.guitarTechnique){
+      this.guitarTechnique = undefined
+    }
+    return
+  }
 }
 
 
@@ -109,7 +122,7 @@ function validateIntergerField(value: number, MAX_VALUE_CONST: number, fieldName
     return null;
   }
 }
-
+// exports.module = Note
 // const ab:NoteType = {
 //   guitarString: 2,
 //   guitarFret: 0,
