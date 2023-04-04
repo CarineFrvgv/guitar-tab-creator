@@ -1,11 +1,18 @@
-import express, {Request, Response} from "express";
+import express, {Express, Request, Response} from "express";
 import db from '../db';
 
+db.authenticate().then(()=>{console.log('connect to db')})
+
+//---
+
 const PORT= process.env.PORT || 3000
+const app: Express = express();
 
-db.sync().then(()=>{console.log('connect to db')})
+app.use(express.json());
 
-const app = express();
+// routers
+import apiRouter from '../api'
+app.use('/api', apiRouter);
 
 app.get('/', (req: Request, res: Response)=>{
   res.send('running')

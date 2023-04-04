@@ -1,18 +1,20 @@
-import { Sequelize } from "sequelize";
+import {Sequelize} from "sequelize";
 
-const db = new Sequelize('app', '','',{
+const sequelize = new Sequelize('app', '','',{
   storage: './database.sqlite',
   dialect: 'sqlite',
   logging: false
 })
 
-try{
-  db.sync().then(()=>{
-    console.log(`All models are in sync`)
-  })
-}
-catch(err){
-  console.log(``)
-}
+// export const dbSync = ()=>{
+//   try{
+//     db.sync().then(()=>{
+//       console.log(`All models are in sync`)
+//     })
+//   }
+//   catch(err){
+//     console.log(err)
+//   }
+// }
 
-export default db;
+export default sequelize;
