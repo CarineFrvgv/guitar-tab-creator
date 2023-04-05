@@ -1,59 +1,41 @@
-import express, {Express, request, Request, Response} from 'express'
-import { getAllUsers, getUserBy, registerUser } from './userController';
+import express, {Express, Request, Response} from 'express'
+import { registerUser } from './userController';
+// import { getAllUsers, getUserBy, registerUser } from './userController';
 
 const user:Express = express();
 
 user.get('/', async (req:Request, res:Response)=>{
-  const users = await getAllUsers(true, {attributes: ['name', 'email']})
-  res.status(200).send(JSON.stringify(users));
-})
-
-user.post('/register', async(req: Request, res:Response)=>{
-  const {name, email, password} = req.body;
-
-  if(name && email && password){
-    registerUser({name, email, password}).then((response)=>{
-
-      if (response.success){
-        res.status(200).send(JSON.stringify(response))
-      }
-      else{
-        response.error ? 
-        res.status(500).send(JSON.stringify({success:false, message: 'internal server error, try again later.'}))
-        :
-        res.status(400).send(JSON.stringify(response))
-      }
-    })
-  }
-  else{
-    res.status(400).send(JSON.stringify({success: false, message: 'request needs: name, email and password'}))
-  }
-
-
-  
-  
+  res.send({message: 'mock'})
+  // try{
+  //   const users = await getAllUsers(true, {attributes: ['name', 'email']})
+  //   res.status(200).send(JSON.stringify(users));
+  // }catch(err){
+  //   console.log(err)
+  // }
 
 })
+
+user.post('/register', registerUser)
 
 user.get('/:id', async (req:Request, res:Response)=>{
   // res.send(req.params.id)
-  const user = await getUserBy('id', req.params.id)
-  if(user){
-    res.status(200).send(JSON.stringify({
-      name: user.name,
-      emali: user.email,
-      songs: {
-        title: 'this is me',
-        key: 'a major',
-        bpm: 127,
-        time_sig: '3/4'
-      }
-    }))
+  // const user = await getUserBy('id', req.params.id)
+  // if(user){
+  //   res.status(200).send(JSON.stringify({
+  //     name: user.name,
+  //     emali: user.email,
+  //     songs: {
+  //       title: 'this is me',
+  //       key: 'a major',
+  //       bpm: 127,
+  //       time_sig: '3/4'
+  //     }
+  //   }))
 
-  }
-  else{
-    res.status(404).send('user not found.')
-  }
+  // }
+  // else{
+  //   res.status(404).send('user not found.')
+  // }
   // res.send('get user by id')
 })
 
