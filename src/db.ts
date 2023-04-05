@@ -6,15 +6,14 @@ const sequelize = new Sequelize('app', '','',{
   logging: false
 })
 
-// export const dbSync = ()=>{
-//   try{
-//     db.sync().then(()=>{
-//       console.log(`All models are in sync`)
-//     })
-//   }
-//   catch(err){
-//     console.log(err)
-//   }
-// }
+export async function DBConnection() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
+}
+
 
 export default sequelize;

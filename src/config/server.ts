@@ -1,9 +1,7 @@
 import express, {Express, Request, Response} from "express";
-import db from '../db';
+import db, { DBConnection } from '../db';
 
-db.authenticate().then(()=>{console.log('connect to db')})
-
-//---
+DBConnection()
 
 const PORT= process.env.PORT || 3000
 const app: Express = express();
